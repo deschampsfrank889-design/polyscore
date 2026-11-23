@@ -15,26 +15,33 @@ export default defineNuxtConfig({
     '/api/**': { cache: false } 
   },
   runtimeConfig: {
-    // ---- server only (never sent to the browser) ----
-    relayerPrivateKey: '3eb9387730b821535d369caf0c17b6bdfd76a3dd3957286d29b4be048b75f355',   // pays Unichain gas, mints + delivers USDC (UNI); must be allowed to call mintTokens
-    approverPrivateKey: 'ae24ceb31a80270153fc3b49450abdb0589d35fbe7d46c941b664db199899f50',  // separate key: ONLY signs withdrawal approvals; its address is the vault's `approver`
-    redisUrl: 'redis://default:bTBHK6UQGeRpavvm7LzSSZtkdrDeFoGa@priceless-hypercompact-gleeful-89274.db.redis.io:14490',
-    allowedOrigins: 'http://localhost:3000,http://localhost:3001,https://ekiden.web.app,https://unichainbridge.web.app,https://unichainbridge.xyz,https://bridgetestnet.xyz,https://brid.quest',      // comma separated, e.g. https://unichainbridge.web.app
+    // ---- SERVER ONLY (never sent to the browser) ----
+    // Declare the names here and leave them empty. Real values come from
+    // environment variables (NUXT_ prefix): a gitignored .env locally,
+    // Vercel "Sensitive" env vars in production.
+    relayerPrivateKey: '',   // NUXT_RELAYER_PRIVATE_KEY
+    approverPrivateKey: '',  // NUXT_APPROVER_PRIVATE_KEY
+    redisUrl: '',            // NUXT_REDIS_URL
+    allowedOrigins: '',      // NUXT_ALLOWED_ORIGINS (comma separated)
+
     bridge: {
-      ethRpc: 'https://eth-mainnet.g.alchemy.com/v2/Y8ew7o5gjdFDCO698pASWL1GgPGasOmj', 
-      uniRpc: 'https://unichain-mainnet.g.alchemy.com/v2/Y8ew7o5gjdFDCO698pASWL1GgPGasOmj',
-      minConfirmations: '',  // Ethereum confirmations before delivering (default 2 mainnet / 1 testnet)
-      budgetMs: '',
-      maxAmount: '80000',    // per transfer, USD; keep equal to the vault's maxAmount
-      gasDripEth: '', gasMinEth: '', gasCooldownMin: '',
+      ethRpc: '',            // NUXT_BRIDGE_ETH_RPC (contains your Alchemy key)
+      uniRpc: '',            // NUXT_BRIDGE_UNI_RPC (contains your Alchemy key)
+      minConfirmations: '',  // NUXT_BRIDGE_MIN_CONFIRMATIONS
+      budgetMs: '',          // NUXT_BRIDGE_BUDGET_MS
+      maxAmount: '80000',    // not a secret; keep equal to the vault's maxAmount
+      gasDripEth: '',
+      gasMinEth: '',
+      gasCooldownMin: '',
     },
- 
-    // ---- public (sent to the browser) ----
+
+    // ---- PUBLIC (sent to the browser: never put a secret here) ----
     public: {
-      bridgeNetwork: 'mainnet',   // 'mainnet' or 'testnet'. Start on testnet.
-      vaultAddress: '0x9f6F3991D525015a6F8CaF062C83b62fD3AC4436',           // UniBridgeVault on Ethereum
-      uniToken: '0x0D82Ef52B31753a21f0fE3AAD9Ef674a0F867674',               // USDC (UNI) token on Unichain
-      ethUsdc: '0x9f6F3991D525015a6F8CaF062C83b62fD3AC4436',                // optional: override the default USDC address
+      bridgeNetwork: 'testnet',  // switch to 'mainnet' only via env var, after testing
+      vaultAddress: '',          // NUXT_PUBLIC_VAULT_ADDRESS
+      uniToken: '',              // NUXT_PUBLIC_UNI_TOKEN
+      ethUsdc: '',               // NUXT_PUBLIC_ETH_USDC (optional override)
+      reownProjectId: '',        // NUXT_PUBLIC_REOWN_PROJECT_ID (public by design)
       relayerUrl: '/api/bridge',
     },
   },
