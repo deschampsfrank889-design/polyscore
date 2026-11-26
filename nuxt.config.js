@@ -35,14 +35,16 @@ export default defineNuxtConfig({
       gasCooldownMin: '',
     },
 
-    // ---- PUBLIC (sent to the browser: never put a secret here) ----
+    // ---- PUBLIC (exposed to the browser) ----
     public: {
-      bridgeNetwork: 'testnet',  // switch to 'mainnet' only via env var, after testing
-      vaultAddress: '',          // NUXT_PUBLIC_VAULT_ADDRESS
-      uniToken: '',              // NUXT_PUBLIC_UNI_TOKEN
-      ethOusd: '',               // NUXT_PUBLIC_ETH_OUSD (optional override)
-      reownProjectId: '',        // NUXT_PUBLIC_REOWN_PROJECT_ID (public by design)
+      bridgeNetwork: 'mainnet',
+      vaultAddress: '', 
+      uniToken: '', 
       relayerUrl: '/api/bridge',
-    },
+      ethOusd: '', 
+      ethUsdc: '', 
+      ethUsdt: '', 
+      ethDai: '',
+    }
   },
 });
